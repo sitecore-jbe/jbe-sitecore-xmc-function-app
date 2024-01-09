@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Sitecore.XMC
+namespace Sitecore.XMC.WebhookRequest
 {
     public class Item
     {

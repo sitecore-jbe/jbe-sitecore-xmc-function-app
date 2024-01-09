@@ -1,4 +1,4 @@
-namespace Sitecore.XMC
+namespace Sitecore.ContentHub
 {
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace Sitecore.XMC
 
         public static async Task<EntityResource> GetEntityResourceAsync(string tenantUrl, string oAuthToken, string entityIdentifier, ILogger log)
         {
-            log.LogInformation("Function 'Sitecore.XMC.ContentHub.EntityResource.GetEntityResourceAsync' started.");
+            log.LogInformation("Function 'Sitecore.ContentHub.EntityResource.GetEntityResourceAsync' started.");
 
             var client = new HttpClient();
             HttpRequestMessage request = tenantUrl.EndsWith("/")
@@ -27,7 +27,7 @@ namespace Sitecore.XMC
             response.EnsureSuccessStatusCode();
 
             EntityResource entityResource = JsonConvert.DeserializeObject<EntityResource>(response.Content.ReadAsStringAsync().Result);
-            log.LogInformation("Function 'Sitecore.XMC.ContentHub.EntityResource.GetEntityResourceAsync' ended.");
+            log.LogInformation("Function 'Sitecore.ContentHub.EntityResource.GetEntityResourceAsync' ended.");
 
             return entityResource;
         }

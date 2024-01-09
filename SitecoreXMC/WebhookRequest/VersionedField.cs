@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Sitecore.XMC
+namespace Sitecore.XMC.WebhookRequest
 {
     public class VersionedField
     {

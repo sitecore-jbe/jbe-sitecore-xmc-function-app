@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Sitecore.XMC
+namespace Sitecore.XMC.WebhookRequest
 {
     public class WebHookEvent
     {
