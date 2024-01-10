@@ -23,7 +23,7 @@ namespace Sitecore.XMC
 
         public static async Task<OAuthToken> GetOAuthTokenAsync(string clientId, string clientSecret, ILogger log)
         {
-            log.LogInformation("Function 'Sitecore.XMC.OAuthToken.GetOAuthTokenAsync' started.");
+            log.LogInformation("'Sitecore.XMC.OAuthToken.GetOAuthTokenAsync' started.");
 
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://auth.sitecorecloud.io/oauth/token");
@@ -42,7 +42,7 @@ namespace Sitecore.XMC
             response.EnsureSuccessStatusCode();
 
             OAuthToken oAuthToken = JsonConvert.DeserializeObject<OAuthToken>(response.Content.ReadAsStringAsync().Result);
-            log.LogInformation("Function 'Sitecore.XMC.OAuthToken.GetOAuthTokenAsync' ended.");
+            log.LogInformation("'Sitecore.XMC.OAuthToken.GetOAuthTokenAsync' ended.");
 
             return oAuthToken;
         }

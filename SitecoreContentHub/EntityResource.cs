@@ -15,7 +15,7 @@ namespace Sitecore.ContentHub
 
         public static async Task<EntityResource> GetEntityResourceAsync(string tenantUrl, string oAuthToken, string entityIdentifier, ILogger log)
         {
-            log.LogInformation("Function 'Sitecore.ContentHub.EntityResource.GetEntityResourceAsync' started.");
+            log.LogInformation("'Sitecore.ContentHub.EntityResource.GetEntityResourceAsync' started.");
 
             var client = new HttpClient();
             HttpRequestMessage request = tenantUrl.EndsWith("/")
@@ -27,7 +27,7 @@ namespace Sitecore.ContentHub
             response.EnsureSuccessStatusCode();
 
             EntityResource entityResource = JsonConvert.DeserializeObject<EntityResource>(response.Content.ReadAsStringAsync().Result);
-            log.LogInformation("Function 'Sitecore.ContentHub.EntityResource.GetEntityResourceAsync' ended.");
+            log.LogInformation("'Sitecore.ContentHub.EntityResource.GetEntityResourceAsync' ended.");
 
             return entityResource;
         }

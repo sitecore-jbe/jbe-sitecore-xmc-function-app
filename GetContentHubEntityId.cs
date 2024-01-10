@@ -10,7 +10,7 @@ using System;
 using Sitecore.ContentHub;
 using Sitecore.XMC.WebhookRequest;
 
-namespace Sitecore.XMC
+namespace Sitecore
 {
     public static class GetContentHubEntityId
     {
@@ -35,9 +35,9 @@ namespace Sitecore.XMC
 
             //Get Content Hub OAuth Client Bearer Token
             Sitecore.ContentHub.OAuthToken contentHubOAuthToken = await Sitecore.ContentHub.OAuthToken.GetOAuthTokenAsync(
-                requestParameters.TenantUrl,
-                requestParameters.Username,
-                requestParameters.Password,
+                requestParameters.ContentHubTenantUrl,
+                requestParameters.ContentHubUsername,
+                requestParameters.ContentHubPassword,
                 requestParameters.ContentHubClientId,
                 requestParameters.ContentHubClientSecret,
                 log);
@@ -45,7 +45,7 @@ namespace Sitecore.XMC
 
             //Get Entity Id
             EntityResource entityResource = await EntityResource.GetEntityResourceAsync(
-                requestParameters.TenantUrl,
+                requestParameters.ContentHubTenantUrl,
                 contentHubAccessToken,
                 entityIdentifier,
                 log);
@@ -60,12 +60,12 @@ namespace Sitecore.XMC
 
             //Compose ContentHub Url
             var rawValue =
-             requestParameters.TenantUrl.EndsWith("/")
-                ? requestParameters.TenantUrl + "en-us/ch-products/ch-productssearch/ch-productdetails2/" + entityId + "?tab28428=Details"
-                : requestParameters.TenantUrl + "/en-us/ch-products/ch-productssearch/ch-productdetails2/" + entityId + "?tab28428=Details";
+             requestParameters.ContentHubTenantUrl.EndsWith("/")
+                ? requestParameters.ContentHubTenantUrl + "en-us/ch-products/ch-productssearch/ch-productdetails2/" + entityId + "?tab28428=Details"
+                : requestParameters.ContentHubTenantUrl + "/en-us/ch-products/ch-productssearch/ch-productdetails2/" + entityId + "?tab28428=Details";
 
             //Update XMC Item with ContentHub Url
-            GraphQL.UpdateItemResult item = await Item.UpdateItemAsync(
+            XMC.GraphQL.UpdateItemResult item = await XMC.Item.UpdateItemAsync(
                             requestParameters.XMCTenantUrl,
                             xmcAccessToken,
                             webHookEvent.Item.Id,

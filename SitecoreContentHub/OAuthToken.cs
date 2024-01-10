@@ -26,7 +26,7 @@ namespace Sitecore.ContentHub
 
         public static async Task<OAuthToken> GetOAuthTokenAsync(string tenantUrl, string username, string password, string clientId, string clientSecret, ILogger log)
         {
-            log.LogInformation("Function 'Sitecore.ContentHub.OAuthToken.GetOAuthToken' started.");
+            log.LogInformation("'Sitecore.ContentHub.OAuthToken.GetOAuthToken' started.");
 
             var client = new HttpClient();
             HttpRequestMessage request = tenantUrl.EndsWith("/")
@@ -48,7 +48,7 @@ namespace Sitecore.ContentHub
             response.EnsureSuccessStatusCode();
 
             OAuthToken oAuthToken = JsonConvert.DeserializeObject<OAuthToken>(response.Content.ReadAsStringAsync().Result);
-            log.LogInformation("Function 'Sitecore.ContentHub.OAuthToken.GetOAuthToken' ended.");
+            log.LogInformation("'Sitecore.ContentHub.OAuthToken.GetOAuthToken' ended.");
 
             return oAuthToken;
         }
