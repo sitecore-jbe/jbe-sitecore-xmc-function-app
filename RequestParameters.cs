@@ -11,6 +11,8 @@ namespace Sitecore
     {
         public string ContentHubTenantUrl { get; set; }
 
+        public string ContentHubEntityUrl { get; set; }
+
         public string ContentHubUsername { get; set; }
 
         public string ContentHubPassword { get; set; }
@@ -32,6 +34,7 @@ namespace Sitecore
             var instance = new RequestParameters
             {
                 ContentHubTenantUrl = requestQuery["contentHubTenantUrl"],
+                ContentHubEntityUrl = requestQuery["contentHubEntityUrl"],
                 ContentHubUsername = requestQuery["contentHubUsername"],
                 ContentHubPassword = requestQuery["contentHubPassword"],
                 ContentHubClientId = requestQuery["contentHubClientId"],
@@ -42,6 +45,7 @@ namespace Sitecore
             };
 
             log.LogInformation("Request query parameter 'ContentHubTenantUrl': " + instance.ContentHubTenantUrl);
+            log.LogInformation("Request query parameter 'ContentHubEntityUrl': " + instance.ContentHubEntityUrl);
             log.LogInformation("Request query parameter 'ContentHubUsername': " + instance.ContentHubUsername);
             log.LogInformation("Request query parameter 'ContentHubPassword': " + instance.ContentHubPassword);
             log.LogInformation("Request query parameter 'ContentHubClientId': " + instance.ContentHubClientId);
@@ -56,6 +60,12 @@ namespace Sitecore
                 instance.ContentHubTenantUrl = "https://almu-llbg.sitecoresandbox.cloud";
                 log.LogInformation("Request query parameter 'ContentHubTenantUrl' not provided, using default: " + instance.ContentHubTenantUrl);
             }
+            if (instance.ContentHubEntityUrl == null)
+            {
+                instance.ContentHubEntityUrl = "https://almu-llbg.sitecoresandbox.cloud/en-us/ch-products/ch-productfamilies/ch-productfamilydetails/{EntityId}?tab28449=Details";
+                log.LogInformation("Request query parameter 'ContentHubEntityUrl' not provided, using default: " + instance.ContentHubTenantUrl);
+            }
+            ////en-us/ch-products/ch-productfamilies/ch-productfamilydetails/
             if (instance.ContentHubUsername == null)
             {
                 instance.ContentHubUsername = "JBESitecoreXMC";

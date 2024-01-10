@@ -59,17 +59,14 @@ namespace Sitecore
             var xmcAccessToken = xmcOAuthToken.AccessToken;
 
             //Compose ContentHub Url
-            var rawValue =
-             requestParameters.ContentHubTenantUrl.EndsWith("/")
-                ? requestParameters.ContentHubTenantUrl + "en-us/ch-products/ch-productssearch/ch-productdetails2/" + entityId + "?tab28428=Details"
-                : requestParameters.ContentHubTenantUrl + "/en-us/ch-products/ch-productssearch/ch-productdetails2/" + entityId + "?tab28428=Details";
+            var contentHubEntityUrl = requestParameters.ContentHubEntityUrl.Replace("{EntityId}", entityId);
 
             //Update XMC Item with ContentHub Url
             XMC.GraphQL.UpdateItemResult item = await XMC.Item.UpdateItemAsync(
                             requestParameters.XMCTenantUrl,
                             xmcAccessToken,
                             webHookEvent.Item.Id,
-                            rawValue,
+                            contentHubEntityUrl,
                             log);
             var itemId = item.Data.UpdateItem.Item.ItemId;
 
