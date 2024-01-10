@@ -26,11 +26,11 @@ namespace Sitecore.XMC.WebhookRequest
 
         public static WebHookEvent Initialize(string requestBody, ILogger log)
         {
-            log.LogInformation("Function 'Sitecore.XMC.ContentHub.WebhookEvent.Initialize' started.");
+            log.LogInformation("'Sitecore.XMC.WebhookRequest.WebhookEvent.Initialize' started.");
 
             WebHookEvent webhookEvent = JsonConvert.DeserializeObject<WebHookEvent>(requestBody);
 
-            log.LogInformation("Function 'Sitecore.XMC.ContentHub.WebhookEvent.Initialize' ended.");
+            log.LogInformation("'Sitecore.XMC.WebhookRequest.WebhookEvent.Initialize' ended.");
 
             return webhookEvent;
         }
