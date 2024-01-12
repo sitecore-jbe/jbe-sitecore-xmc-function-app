@@ -53,9 +53,9 @@ namespace Sitecore.XMC.WebhookRequest
                 case "item:locked":
                     //Get the owner and date.
                     var lockField = Item.VersionedFields.Single(e => e.Id == Guid.Parse(lockFieldId));
-                    XmlDocument doc = new XmlDocument();
+                    var doc = new XmlDocument();
                     doc.LoadXml(lockField.Value);
-                    var lockOwner = doc.DocumentElement.Attributes["owner"].Value;
+                    var lockOwner = doc.DocumentElement.Attributes["owner"].Value.Replace("\\", "\\\\");
                     var lockDate = Utils.GetDateTimeOffset(doc.DocumentElement.Attributes["date"].Value);
 
                     adaptiveCardContent.Title = "The item **" + Item.Name + "** is locked.";
