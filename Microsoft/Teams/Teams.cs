@@ -11,9 +11,9 @@ namespace Microsoft.Teams
 {
     public class Teams
     {
-        public static async Task<System.Net.Http.HttpResponseMessage> ShareContent(string webhookUrl, AdaptiveCardContent adaptiveCardContent, ILogger log)
+        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardContent adaptiveCardContent, ILogger log)
         {
-            log.LogInformation("'Microsoft.Teams.ShareContent' started.");
+            log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' started.");
 
             var adaptiveCardContentFields = "";
             var fieldCounter = 0;
@@ -74,7 +74,7 @@ namespace Microsoft.Teams
             var response = await client.PostAsync(webhookUrl, content);
             response.EnsureSuccessStatusCode();
 
-            log.LogInformation("'Microsoft.Teams.ShareContent' ended.");
+            log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' ended.");
 
             return response;
         }

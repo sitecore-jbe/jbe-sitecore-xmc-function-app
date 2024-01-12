@@ -30,7 +30,7 @@ namespace Sitecore
                 log
                 );
 
-            var response = await Microsoft.Teams.Teams.ShareContent(requestParameters.TeamsWebHookUrl, adaptiveCardContent, log);
+            var response = await Microsoft.Teams.Teams.PostTeamsChannelNotification(requestParameters.TeamsWebHookUrl, adaptiveCardContent, log);
 
             string responseMessage = "This HTTP triggered function executed successfully with the following response: \r\n" + response.Content.ToString();
 

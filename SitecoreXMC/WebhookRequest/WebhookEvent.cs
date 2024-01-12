@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
@@ -12,6 +15,8 @@ namespace Sitecore.XMC.WebhookRequest
 {
     public class WebHookEvent
     {
+        const string lockFieldId = "001dd393-96c5-490b-924a-b0f25cd9efd8";
+
         [JsonProperty("EventName")]
         public string EventName { get; set; }
 
@@ -46,25 +51,32 @@ namespace Sitecore.XMC.WebhookRequest
                     adaptiveCardContent.Description = adaptiveCardContent.Title;
                     break;
                 case "item:locked":
-                    adaptiveCardContent.Title = "Raised when the item is locked.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    //Get the owner and date.
+                    var lockField = Item.VersionedFields.Single(e => e.Id == Guid.Parse(lockFieldId));
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(lockField.Value);
+                    var lockOwner = doc.DocumentElement.Attributes["owner"].Value;
+                    var lockDate = Utils.GetDateTimeOffset(doc.DocumentElement.Attributes["date"].Value);
+
+                    adaptiveCardContent.Title = "The item **" + Item.Name + "** is locked.";
+                    adaptiveCardContent.Description = "The item **" + Item.Name + "** is locked by " + lockOwner + " on " + lockDate.ToLocalTime() + ".";
                     break;
                 case "item:unlocked":
-                    adaptiveCardContent.Title = "Raised when the item is unlocked.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardContent.Title = "The item **" + Item.Name + "** is unlocked.";
+                    adaptiveCardContent.Description = "The item **" + Item.Name + "** is unlocked.";
                     break;
                 case "item:saved":
-                    adaptiveCardContent.Title = "Item saved.";
+                    adaptiveCardContent.Title = "The item **" + Item.Name + "** is saved.";
                     adaptiveCardContent.Description = "The item **" + Item.Name + "** was saved. \r The following field values have changed:";
-                    foreach (var x in Changes.FieldChanges)
+                    foreach (var fieldChange in Changes.FieldChanges)
                     {
                         var fieldName = await XMC.Item.GetFieldNameAsync(
                             tenantUrl,
                             apiKey,
-                            x.FieldId,
+                            fieldChange.FieldId,
                             Item.Id,
                             log);
-                        adaptiveCardContent.Fields.Add("The value of the field **" + fieldName + "** has changed from **" + x.OriginalValue.Replace("\\", "\\\\") + "** to **" + x.Value.Replace("\\", "\\\\") + "**");
+                        adaptiveCardContent.Fields.Add("The value of the field **" + fieldName + "** has changed from **" + fieldChange.OriginalValue.Replace("\\", "\\\\") + "** to **" + fieldChange.Value.Replace("\\", "\\\\") + "**");
                     }
                     break;
                 case "item:copied":

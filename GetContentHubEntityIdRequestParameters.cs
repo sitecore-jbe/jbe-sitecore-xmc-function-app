@@ -25,7 +25,7 @@ namespace Sitecore
 
         public static GetContentHubEntityIdRequestParameters Initialize(string requestBody, IQueryCollection requestQuery, ILogger log)
         {
-            log.LogInformation("'Sitecore.RequestParameters.Initialize' started.");
+            log.LogInformation("'Sitecore.GetContentHubEntityIdRequestParameters.Initialize' started.");
 
             var instance = new GetContentHubEntityIdRequestParameters
             {
@@ -50,7 +50,7 @@ namespace Sitecore
             log.LogInformation("Request query parameter 'XMCClientId': " + instance.XMCClientId);
             log.LogInformation("Request query parameter 'XMCClientSecret': " + instance.XMCClientSecret);
 
-            // Only for debugging.
+            // Only used for development.
             if (instance.ContentHubTenantUrl == null)
             {
                 instance.ContentHubTenantUrl = "https://almu-llbg.sitecoresandbox.cloud";
@@ -97,7 +97,7 @@ namespace Sitecore
                 log.LogInformation("Request query parameter 'XMCClientSecret' not provided, using default: " + instance.XMCClientSecret);
             }
 
-            log.LogInformation("'Sitecore.RequestParameters.Initialize' ended.");
+            log.LogInformation("'Sitecore.GetContentHubEntityIdRequestParameters.Initialize' ended.");
             return instance;
         }
     }

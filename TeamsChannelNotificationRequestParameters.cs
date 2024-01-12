@@ -11,44 +11,26 @@ namespace Sitecore
 
         public string XMCApiKey { get; set; }
 
-        public string XMCClientId { get; set; }
-
-        public string XMCClientSecret { get; set; }
-
         public static TeamsChannelNotificationRequestParameters Initialize(string requestBody, IQueryCollection requestQuery, ILogger log)
         {
-            log.LogInformation("'Sitecore.ShareOnTeamsChannelRequestParameters.Initialize' started.");
+            log.LogInformation("'Sitecore.TeamsChannelNotificationRequestParameters.Initialize' started.");
 
             var instance = new TeamsChannelNotificationRequestParameters
             {
                 TeamsWebHookUrl = requestQuery["teamsWebHookUrl"],
                 XMCTenantUrl = requestQuery["xmcTenantUrl"],
-                XMCClientId = requestQuery["xmcClientId"],
-                XMCClientSecret = requestQuery["xmcClientSecret"],
                 XMCApiKey = requestQuery["xmcApiKey"],
             };
 
             log.LogInformation("Request query parameter 'TeamsWebHookUrl': " + instance.TeamsWebHookUrl);
             log.LogInformation("Request query parameter 'XMCApiKey': " + instance.XMCApiKey);
             log.LogInformation("Request query parameter 'XMCTenantUrl': " + instance.XMCTenantUrl);
-            log.LogInformation("Request query parameter 'XMCClientId': " + instance.XMCClientId);
-            log.LogInformation("Request query parameter 'XMCClientSecret': " + instance.XMCClientSecret);
 
-            // Only for debugging.
+            // Only used for development.
             if (instance.XMCTenantUrl == null)
             {
                 instance.XMCTenantUrl = "https://xmc-sitecoresaacf82-jbexmclouddemo-production.sitecorecloud.io";
                 log.LogInformation("Request query parameter 'XMCTenantUrl' not provided, using default: " + instance.XMCTenantUrl);
-            }
-            if (instance.XMCClientId == null)
-            {
-                instance.XMCClientId = "xfOoiiLN0Z4UCcr63HaSAcwG52z7INzN";
-                log.LogInformation("Request query parameter 'XMCClientId' not provided, using default: " + instance.XMCClientId);
-            }
-            if (instance.XMCClientSecret == null)
-            {
-                instance.XMCClientSecret = "mohNocAmpvzgG5I773pwYMfyG3bh8XH7_8ARaDKkyCw_LDtHDz8lItoqPuy1WJQH";
-                log.LogInformation("Request query parameter 'XMCClientSecret' not provided, using default: " + instance.XMCClientSecret);
             }
             if (instance.XMCApiKey == null)
             {
@@ -61,7 +43,7 @@ namespace Sitecore
                 log.LogInformation("Request query parameter 'TeamsWebHookUrl' not provided, using default: " + instance.TeamsWebHookUrl);
             }
 
-            log.LogInformation("'Sitecore.ShareOnTeamsChannelRequestParameters.Initialize' ended.");
+            log.LogInformation("'Sitecore.TeamsChannelNotificationRequestParameters.Initialize' ended.");
             return instance;
         }
     }
