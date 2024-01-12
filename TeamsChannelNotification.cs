@@ -25,6 +25,7 @@ namespace Sitecore
             var webHookEvent = WebHookEvent.Initialize(requestBody, log);
 
             var adaptiveCardContent = await webHookEvent.GetMicrosoftTeamsAdaptiveCardContent(
+                requestParameters.XMCTenantName,
                 requestParameters.XMCTenantUrl,
                 requestParameters.XMCApiKey,
                 log

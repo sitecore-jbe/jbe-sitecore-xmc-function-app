@@ -20,7 +20,7 @@ namespace Sitecore.XMC.WebhookRequest
         [JsonProperty("EventName")]
         public string EventName { get; set; }
 
-        public async Task<Microsoft.Teams.AdaptiveCardContent> GetMicrosoftTeamsAdaptiveCardContent(string tenantUrl, string apiKey, ILogger log)
+        public async Task<Microsoft.Teams.AdaptiveCardContent> GetMicrosoftTeamsAdaptiveCardContent(string tenantName, string tenantUrl, string apiKey, ILogger log)
         {
             var adaptiveCardContent = new Microsoft.Teams.AdaptiveCardContent();
 
