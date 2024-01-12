@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Sitecore
 {
-    public class ShareOnTeamsChannelRequestParameters
+    public class TeamsChannelNotificationRequestParameters
     {
         public string TeamsWebHookUrl { get; set; }
 
@@ -15,11 +15,11 @@ namespace Sitecore
 
         public string XMCClientSecret { get; set; }
 
-        public static ShareOnTeamsChannelRequestParameters Initialize(string requestBody, IQueryCollection requestQuery, ILogger log)
+        public static TeamsChannelNotificationRequestParameters Initialize(string requestBody, IQueryCollection requestQuery, ILogger log)
         {
             log.LogInformation("'Sitecore.ShareOnTeamsChannelRequestParameters.Initialize' started.");
 
-            var instance = new ShareOnTeamsChannelRequestParameters
+            var instance = new TeamsChannelNotificationRequestParameters
             {
                 TeamsWebHookUrl = requestQuery["teamsWebHookUrl"],
                 XMCTenantUrl = requestQuery["xmcTenantUrl"],

@@ -9,9 +9,9 @@ using Sitecore.XMC.WebhookRequest;
 
 namespace Sitecore
 {
-    public static class ShareOnTeamsChannel
+    public static class TeamsChannelNotification
     {
-        [FunctionName("ShareOnTeamsChannel")]
+        [FunctionName("TeamsChannelNotification")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -19,7 +19,7 @@ namespace Sitecore
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
             //Structure Request Parameters
-            var requestParameters = ShareOnTeamsChannelRequestParameters.Initialize(requestBody, req.Query, log);
+            var requestParameters = TeamsChannelNotificationRequestParameters.Initialize(requestBody, req.Query, log);
 
             //Structure Webhook Event
             var webHookEvent = WebHookEvent.Initialize(requestBody, log);
