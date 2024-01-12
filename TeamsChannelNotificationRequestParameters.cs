@@ -9,6 +9,8 @@ namespace Sitecore
 
         public string XMCTenantUrl { get; set; }
 
+        public string XMCTenantName { get; set; }
+
         public string XMCApiKey { get; set; }
 
         public static TeamsChannelNotificationRequestParameters Initialize(string requestBody, IQueryCollection requestQuery, ILogger log)
@@ -20,17 +22,24 @@ namespace Sitecore
                 TeamsWebHookUrl = requestQuery["teamsWebHookUrl"],
                 XMCTenantUrl = requestQuery["xmcTenantUrl"],
                 XMCApiKey = requestQuery["xmcApiKey"],
+                XMCTenantName = requestQuery["xmcTenantName"]
             };
 
             log.LogInformation("Request query parameter 'TeamsWebHookUrl': " + instance.TeamsWebHookUrl);
             log.LogInformation("Request query parameter 'XMCApiKey': " + instance.XMCApiKey);
             log.LogInformation("Request query parameter 'XMCTenantUrl': " + instance.XMCTenantUrl);
+            log.LogInformation("Request query parameter 'XMCTenantName': " + instance.XMCTenantName);
 
             // Only used for development.
             if (instance.XMCTenantUrl == null)
             {
                 instance.XMCTenantUrl = "https://xmc-sitecoresaacf82-jbexmclouddemo-production.sitecorecloud.io";
                 log.LogInformation("Request query parameter 'XMCTenantUrl' not provided, using default: " + instance.XMCTenantUrl);
+            }
+            if (instance.XMCTenantName == null)
+            {
+                instance.XMCTenantName = "XM Cloud Demo";
+                log.LogInformation("Request query parameter 'XMCTenantName' not provided, using default: " + instance.XMCTenantName);
             }
             if (instance.XMCApiKey == null)
             {
