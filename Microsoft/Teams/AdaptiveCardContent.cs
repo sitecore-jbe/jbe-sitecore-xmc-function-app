@@ -5,7 +5,9 @@ namespace Microsoft.Teams
     public class AdaptiveCardContent
     {
         public string Title;
+
         public string Description;
+
         public List<string> Fields;
 
         public AdaptiveCardContent()

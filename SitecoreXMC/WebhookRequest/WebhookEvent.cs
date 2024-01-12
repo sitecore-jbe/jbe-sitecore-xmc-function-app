@@ -58,16 +58,16 @@ namespace Sitecore.XMC.WebhookRequest
                     var lockOwner = doc.DocumentElement.Attributes["owner"].Value.Replace("\\", "\\\\");
                     var lockDate = Utils.GetDateTimeOffset(doc.DocumentElement.Attributes["date"].Value);
 
-                    adaptiveCardContent.Title = "The item **" + Item.Name + "** is locked.";
-                    adaptiveCardContent.Description = "The item **" + Item.Name + "** is locked by " + lockOwner + " on " + lockDate.ToLocalTime() + ".";
+                    //adaptiveCardContent.Title = "The item **" + Item.Name + "** is locked.";
+                    adaptiveCardContent.Description = "The **" + Item.Name + "** item is locked by " + lockOwner + " on " + lockDate.ToLocalTime() + ".";
                     break;
                 case "item:unlocked":
-                    adaptiveCardContent.Title = "The item **" + Item.Name + "** is unlocked.";
-                    adaptiveCardContent.Description = "The item **" + Item.Name + "** is unlocked.";
+                    //adaptiveCardContent.Title = "The item **" + Item.Name + "** is unlocked.";
+                    adaptiveCardContent.Description = "The **" + Item.Name + "** item is unlocked.";
                     break;
                 case "item:saved":
-                    adaptiveCardContent.Title = "The item **" + Item.Name + "** is saved.";
-                    adaptiveCardContent.Description = "The item **" + Item.Name + "** was saved. \r The following field values have changed:";
+                    //adaptiveCardContent.Title = "The item **" + Item.Name + "** is saved.";
+                    adaptiveCardContent.Description = "Changes to the  **" + Item.Name + "** item are saved. \r The following field values have changed:";
                     foreach (var fieldChange in Changes.FieldChanges)
                     {
                         var fieldName = await XMC.Item.GetFieldNameAsync(
