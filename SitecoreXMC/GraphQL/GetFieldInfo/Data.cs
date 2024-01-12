@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-namespace Sitecore.XMC.GraphQL.GetFieldName
+namespace Sitecore.XMC.GraphQL.GetFieldInfo
 {
     public class Data
     {

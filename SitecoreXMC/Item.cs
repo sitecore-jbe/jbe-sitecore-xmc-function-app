@@ -55,6 +55,7 @@ namespace Sitecore.XMC
                                 definition {{
                                     name
                                     title
+                                    type
                                 }}
                             }}
                         }}
@@ -67,7 +68,7 @@ namespace Sitecore.XMC
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
-            GraphQL.GetFieldName.Result result = JsonConvert.DeserializeObject<GraphQL.GetFieldName.Result>(response.Content.ReadAsStringAsync().Result);
+            GraphQL.GetFieldInfo.Result result = JsonConvert.DeserializeObject<GraphQL.GetFieldInfo.Result>(response.Content.ReadAsStringAsync().Result);
 
             string fieldName;
             switch (fieldId.ToString())
@@ -77,6 +78,9 @@ namespace Sitecore.XMC
                     break;
                 case "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a":
                     fieldName = "Updated by";
+                    break;
+                case "001dd393-96c5-490b-924a-b0f25cd9efd8":
+                    fieldName = "Lock";
                     break;
                 default:
                     var field = result.Data.Item.Fields.Single(e => e.Id == fieldId.ToString().ToUpper().Replace("-", ""));

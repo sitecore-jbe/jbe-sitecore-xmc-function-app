@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-namespace Sitecore.XMC.GraphQL.GetFieldName
+namespace Sitecore.XMC.GraphQL.GetFieldInfo
 {
     public class Definition
     {
@@ -8,5 +8,8 @@ namespace Sitecore.XMC.GraphQL.GetFieldName
 
         [JsonProperty("title")]
         public string Title { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
     }
 }
