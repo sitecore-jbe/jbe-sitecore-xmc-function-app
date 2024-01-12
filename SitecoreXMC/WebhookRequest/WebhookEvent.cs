@@ -56,10 +56,9 @@ namespace Sitecore.XMC.WebhookRequest
                     var doc = new XmlDocument();
                     doc.LoadXml(lockField.Value);
                     var lockOwner = doc.DocumentElement.Attributes["owner"].Value.Replace("\\", "\\\\");
-                    var lockDate = Utils.GetDateTimeOffset(doc.DocumentElement.Attributes["date"].Value);
 
                     //adaptiveCardContent.Title = "The item **" + Item.Name + "** is locked.";
-                    adaptiveCardContent.Description = "The **" + Item.Name + "** item is locked by **" + lockOwner + "** on **" + lockDate.ToLocalTime() + "** on the [jbexmclouddemo](" + tenantUrl + ") tenant.";
+                    adaptiveCardContent.Description = "The **" + Item.Name + "** item is locked by **" + lockOwner + "** on the [jbexmclouddemo](" + tenantUrl + ") tenant.";
                     break;
                 case "item:unlocked":
                     //adaptiveCardContent.Title = "The item **" + Item.Name + "** is unlocked.";
