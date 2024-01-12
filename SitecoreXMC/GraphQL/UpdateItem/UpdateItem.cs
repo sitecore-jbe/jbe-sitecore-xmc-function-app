@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Sitecore.XMC.GraphQL
+namespace Sitecore.XMC.GraphQL.UpdateItem
 {
     public class UpdateItem
     {

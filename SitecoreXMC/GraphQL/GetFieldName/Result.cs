@@ -1,8 +1,7 @@
 using Newtonsoft.Json;
-
-namespace Sitecore.XMC.GraphQL
+namespace Sitecore.XMC.GraphQL.GetFieldName
 {
-    public class UpdateItemResult
+    public class Result
     {
         [JsonProperty("data")]
         public Data Data { get; set; }

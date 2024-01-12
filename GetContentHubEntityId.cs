@@ -21,11 +21,8 @@ namespace Sitecore
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-            //Example Request Parameters
-            //{ "tenantUrl":"https://almu-llbg.sitecoresandbox.cloud", "username": "JBESitecoreXMC", "password": "S!t3c0r3", "clientId": "JBESitecoreXMC", "clientSecret": "S!t3c0r3", "entityIdentifier": "Gs8f4QkTs0WEyYCdT-GPAg"}
-
             //Structure Request Parameters
-            var requestParameters = RequestParameters.Initialize(requestBody, req.Query, log);
+            var requestParameters = GetContentHubEntityIdRequestParameters.Initialize(requestBody, req.Query, log);
 
             //Structure Webhook Event
             var webHookEvent = WebHookEvent.Initialize(requestBody, log);
@@ -62,7 +59,7 @@ namespace Sitecore
             var contentHubEntityUrl = requestParameters.ContentHubEntityUrl.Replace("{EntityId}", entityId);
 
             //Update XMC Item with ContentHub Url
-            XMC.GraphQL.UpdateItemResult item = await XMC.Item.UpdateItemAsync(
+            XMC.GraphQL.UpdateItem.Result item = await XMC.Item.UpdateItemWithContentHubURLAsync(
                             requestParameters.XMCTenantUrl,
                             xmcAccessToken,
                             webHookEvent.Item.Id,
@@ -76,6 +73,5 @@ namespace Sitecore
 
             return new OkObjectResult(responseMessage);
         }
-
     }
 }

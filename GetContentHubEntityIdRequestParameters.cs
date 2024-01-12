@@ -1,13 +1,9 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace Sitecore
 {
-    public class RequestParameters
+    public class GetContentHubEntityIdRequestParameters
     {
         public string ContentHubTenantUrl { get; set; }
 
@@ -27,11 +23,11 @@ namespace Sitecore
 
         public string XMCClientSecret { get; set; }
 
-        public static RequestParameters Initialize(string requestBody, IQueryCollection requestQuery, ILogger log)
+        public static GetContentHubEntityIdRequestParameters Initialize(string requestBody, IQueryCollection requestQuery, ILogger log)
         {
             log.LogInformation("'Sitecore.RequestParameters.Initialize' started.");
 
-            var instance = new RequestParameters
+            var instance = new GetContentHubEntityIdRequestParameters
             {
                 ContentHubTenantUrl = requestQuery["contentHubTenantUrl"],
                 ContentHubEntityUrl = requestQuery["contentHubEntityUrl"],
@@ -65,7 +61,6 @@ namespace Sitecore
                 instance.ContentHubEntityUrl = "https://almu-llbg.sitecoresandbox.cloud/en-us/ch-products/ch-productfamilies/ch-productfamilydetails/{EntityId}?tab28449=Details";
                 log.LogInformation("Request query parameter 'ContentHubEntityUrl' not provided, using default: " + instance.ContentHubTenantUrl);
             }
-            ////en-us/ch-products/ch-productfamilies/ch-productfamilydetails/
             if (instance.ContentHubUsername == null)
             {
                 instance.ContentHubUsername = "JBESitecoreXMC";
