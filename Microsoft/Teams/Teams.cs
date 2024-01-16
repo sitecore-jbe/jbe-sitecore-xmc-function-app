@@ -59,16 +59,13 @@ namespace Microsoft.Teams
                             }}
                         ]
                     }},
-                    {{
-                        ""type"": ""ActionSet"",
-                        ""actions"": [
+                    ""actions"": [
                         {{
                             ""type"": ""Action.OpenUrl"",
-                            ""title"": ""Suggested Actions"",
-                            ""url"": ""www.google.be""
+                            ""title"": ""Action.OpenUrl"",
+                            ""url"": ""https://adaptivecards.io""
                         }}
-                        ]
-                    }}
+                    ]
                 ],
                 ""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",
                 ""version"": ""1.5""
