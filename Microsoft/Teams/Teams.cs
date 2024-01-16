@@ -62,10 +62,15 @@ namespace Microsoft.Teams
                     {{
                         ""type"": ""ActionSet"",
                         ""actions"": [
-                        {{
-                            ""type"": ""Action.Execute"",
-                            ""title"": ""Open Content Editor"",
-                        }}
+                            {{
+                                ""type"": ""Action.Execute"",
+                                ""title"": ""Open Content Editor"",
+                                ""verb"": ""personalDetailsFormSubmit"",
+                                ""fallback"": {{
+                                    ""type"": ""Action.Submit"",
+                                    ""title"": ""Submit""
+                                }}  
+                            }}
                         ]
                     }}
                 ],
