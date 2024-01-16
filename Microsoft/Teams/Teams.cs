@@ -63,13 +63,9 @@ namespace Microsoft.Teams
                         ""type"": ""ActionSet"",
                         ""actions"": [
                         {{
-                            ""type"": ""Action.Execute"",
+                            ""type"": ""Action.OpenUrl"",
                             ""title"": ""Suggested Actions"",
-                            ""verb"": ""personalDetailsFormSubmit"",
-                            ""fallback"": {{
-                                ""type"": ""Action.Submit"",
-                                ""title"": ""Submit""
-                            }}  
+                            ""url"": ""www.google.be""
                         }}
                         ]
                     }}
