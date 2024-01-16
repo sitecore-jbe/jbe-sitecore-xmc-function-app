@@ -58,6 +58,20 @@ namespace Microsoft.Teams
                                 ""wrap"": true
                             }}
                         ]
+                    }},
+                    {{
+                        ""type"": ""ActionSet"",
+                        ""actions"": [
+                        {{
+                            ""type"": ""Action.Execute"",
+                            ""title"": ""Suggested Actions"",
+                            ""verb"": ""personalDetailsFormSubmit"",
+                            ""fallback"": {{
+                                ""type"": ""Action.Submit"",
+                                ""title"": ""Submit""
+                            }}  
+                        }}
+                        ]
                     }}
                 ],
                 ""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",
