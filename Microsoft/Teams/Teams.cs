@@ -61,9 +61,10 @@ namespace Microsoft.Teams
                     }},
                     ""actions"": [
                         {{
-                            ""type"": ""Action.OpenUrl"",
-                            ""title"": ""Action.OpenUrl"",
-                            ""url"": ""https://adaptivecards.io""
+                            ""type"": ""Action.Execute"",
+                            ""title"": ""Card actions"",
+                            ""verb"": ""personalDetailsFormSubmit"",
+                            ""fallback"": ""Action.Submit""
                         }}
                     ]
                 ],
