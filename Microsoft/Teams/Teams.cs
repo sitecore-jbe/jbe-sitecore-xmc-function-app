@@ -59,14 +59,15 @@ namespace Microsoft.Teams
                             }}
                         ]
                     }},
-                    ""actions"": [
+                    {{
+                        ""type"": ""ActionSet"",
+                        ""actions"": [
                         {{
                             ""type"": ""Action.Execute"",
-                            ""title"": ""Card actions"",
-                            ""verb"": ""personalDetailsFormSubmit"",
-                            ""fallback"": ""Action.Submit""
+                            ""title"": ""Open Content Editor"",
                         }}
-                    ]
+                        ]
+                    }}
                 ],
                 ""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",
                 ""version"": ""1.5""
