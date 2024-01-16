@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples
                 // Extract the text from the message activity the user sent.
                 var text = turnContext.Activity.Text.ToLowerInvariant();
 
-                if (text.Contains("card actions"))
+                if (text.Contains("open content editor"))
                 {
                     string[] path = { ".", "Cards", "AdaptiveCardActions.json" };
                     var adaptiveCardForPersonalScope = GetFirstOptionsAdaptiveCard(path, turnContext.Activity.From.Name);
