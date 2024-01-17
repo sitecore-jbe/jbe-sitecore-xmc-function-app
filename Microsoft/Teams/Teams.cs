@@ -1,9 +1,11 @@
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using AdaptiveCards.Templating;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -11,22 +13,34 @@ namespace Microsoft.Teams
 {
     public class Teams
     {
-        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardContent adaptiveCardData, ILogger log)
+        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardContent adaptiveCardData, ILogger log, ExecutionContext Context)
         {
             log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' started.");
 
-            string[] path = { ".", "Cards", "XMCNotification.json" };
+            string[] path = { "Cards", "XMCNotification.json" };
 
             try
             {
-                var adaptiveCardTemplateJson = File.ReadAllText(Path.Combine(path));
+                var adaptiveCardTemplateJson = File.ReadAllText(Context.FunctionAppDirectory + Path.Combine(path));
+
+                var getClient = new HttpClient();
+
+
+                getClient.BaseAddress = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME").Contains("localhost")
+                    ? new Uri(Environment.GetEnvironmentVariable("PublishedUrl"))
+                    : new Uri(Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME"));
+                getClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //var adaptiveCardTemplateJson = await getClient.GetStringAsync("/Cards/XMCNotification.json");
                 var adaptiveCardTemplate = new AdaptiveCardTemplate(adaptiveCardTemplateJson);
-                
+
+
+
 
                 //"Expand" the template -this generates the final Adaptive Card payload
                 var expandedAdaptiveCardTemplate = adaptiveCardTemplate.Expand(JsonConvert.SerializeObject(adaptiveCardData).ToString());
                 var adaptiveCardStringContent = new StringContent(JsonConvert.DeserializeObject(expandedAdaptiveCardTemplate).ToString(), System.Text.Encoding.UTF8, "application/vnd.microsoft.card.adaptive");
-              
+
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = await client.PostAsync(webhookUrl, adaptiveCardStringContent);
@@ -118,7 +132,7 @@ namespace Microsoft.Teams
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            
+
             var content = new StringContent(adaptiveCardJson.Replace("\r\n", ""), System.Text.Encoding.UTF8, "application/json");
             var response = await client.PostAsync(webhookUrl, content);
             response.EnsureSuccessStatusCode();
