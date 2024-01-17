@@ -1,17 +1,52 @@
-using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using AdaptiveCards.Templating;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Sitecore.XMC.GraphQL;
 
 namespace Microsoft.Teams
 {
     public class Teams
     {
-        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardContent adaptiveCardContent, ILogger log)
+        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardContent adaptiveCardData, ILogger log)
+        {
+            log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' started.");
+
+            string[] path = { ".", "Cards", "XMCNotification.json" };
+
+            try
+            {
+                var adaptiveCardTemplateJson = File.ReadAllText(Path.Combine(path));
+                var adaptiveCardTemplate = new AdaptiveCardTemplate(adaptiveCardTemplateJson);
+                
+
+                //"Expand" the template -this generates the final Adaptive Card payload
+                var expandedAdaptiveCardTemplate = adaptiveCardTemplate.Expand(JsonConvert.SerializeObject(adaptiveCardData).ToString());
+                var adaptiveCardStringContent = new StringContent(JsonConvert.DeserializeObject(expandedAdaptiveCardTemplate).ToString(), System.Text.Encoding.UTF8, "application/vnd.microsoft.card.adaptive");
+              
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await client.PostAsync(webhookUrl, adaptiveCardStringContent);
+                response.EnsureSuccessStatusCode();
+                return response;
+
+            }
+            catch (AdaptiveSerializationException ex)
+            {
+                // Failed to deserialize card 
+                // This occurs from malformed JSON
+                // or schema violations like required properties missing 
+            }
+
+            log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' ended.");
+            return null;
+        }
+
+
+        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotificationGood(string webhookUrl, AdaptiveCardContent adaptiveCardContent, ILogger log)
         {
             log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' started.");
 
@@ -83,7 +118,7 @@ namespace Microsoft.Teams
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
+            
             var content = new StringContent(adaptiveCardJson.Replace("\r\n", ""), System.Text.Encoding.UTF8, "application/json");
             var response = await client.PostAsync(webhookUrl, content);
             response.EnsureSuccessStatusCode();
