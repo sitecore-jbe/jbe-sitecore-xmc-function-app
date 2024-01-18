@@ -67,7 +67,7 @@ namespace Microsoft.Teams
 
         }
 
-        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardData adaptiveCardContent, ILogger log)
+        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardData adaptiveCardContent, ILogger log, ExecutionContext context)
         {
             log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' started.");
 
