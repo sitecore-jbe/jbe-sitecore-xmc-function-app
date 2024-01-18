@@ -26,7 +26,7 @@ namespace Microsoft.Teams
             return s.Replace("\r", "").Replace("\n", "");
         }
 
-        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardData adaptiveCardData, ILogger log, ExecutionContext context)
+        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotificationBad(string webhookUrl, AdaptiveCardData adaptiveCardData, ILogger log, ExecutionContext context)
         {
             log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' started.");
             string[] paths = { "Cards", "XMCNotification.json" };
@@ -67,7 +67,7 @@ namespace Microsoft.Teams
 
         }
 
-        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotificationGood(string webhookUrl, AdaptiveCardData adaptiveCardContent, ILogger log)
+        public static async Task<System.Net.Http.HttpResponseMessage> PostTeamsChannelNotification(string webhookUrl, AdaptiveCardData adaptiveCardContent, ILogger log)
         {
             log.LogInformation("'Microsoft.Teams.Teams.PostTeamsChannelNotification' started.");
 
