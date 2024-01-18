@@ -78,8 +78,8 @@ namespace Microsoft.Teams
             {
                 fieldCounter++;
                 adaptiveCardContentFields += (fieldCounter == 1)
-                                             ? "- " + field
-                                             : "\r- " + field;
+                                             ? "- " + field.Value
+                                             : "\r- " + field.Value;
             }
 
             var adaptiveCardJson = $@"{{
