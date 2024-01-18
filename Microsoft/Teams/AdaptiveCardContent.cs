@@ -1,18 +1,25 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Teams
 {
-    public class AdaptiveCardContent
+
+    public class AdaptiveCardData
     {
         public string Title;
 
         public string Description;
 
-        public List<string> Fields;
+        public List<Field> Fields;
 
-        public AdaptiveCardContent()
+        public AdaptiveCardData()
         {
-            Fields = new List<string>();
+            Fields = new List<Field>();
+        }
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Sitecore
         [FunctionName("TeamsChannelNotification")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, ExecutionContext context)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
@@ -24,14 +24,14 @@ namespace Sitecore
             //Structure Webhook Event
             var webHookEvent = WebHookEvent.Initialize(requestBody, log);
 
-            var adaptiveCardContent = await webHookEvent.GetMicrosoftTeamsAdaptiveCardContent(
+            var adaptiveCardData = await webHookEvent.GetMicrosoftTeamsadaptiveCardData(
                 requestParameters.XMCTenantName,
                 requestParameters.XMCTenantUrl,
                 requestParameters.XMCApiKey,
                 log
                 );
 
-            var response = await Microsoft.Teams.Teams.PostTeamsChannelNotification(requestParameters.TeamsWebHookUrl, adaptiveCardContent, log);
+            var response = await Microsoft.Teams.Teams.PostTeamsChannelNotification(requestParameters.TeamsWebHookUrl, adaptiveCardData, log, context);
 
             string responseMessage = "This HTTP triggered function executed successfully with the following response: \r\n" + response.Content.ToString();
 

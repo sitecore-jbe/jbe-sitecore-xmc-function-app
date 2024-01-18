@@ -6,7 +6,7 @@
     "body": [
         {
             "type": "TextBlock",
-            "text": "${title}",
+            "text": "${Title}",
             "style": "heading",
             "wrap": true
         },
@@ -17,11 +17,11 @@
         },
         {
             "type": "Container",
-            "$data": "${$root.fields}",
+            "$data": "${$root.Fields}",
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "${value}",
+                    "text": "${Value}",
                     "wrap": true
                 }
             ]

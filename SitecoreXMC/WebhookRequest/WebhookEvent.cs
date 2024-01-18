@@ -9,6 +9,7 @@ using System.Xml;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
+using Microsoft.Teams;
 using Newtonsoft.Json;
 
 namespace Sitecore.XMC.WebhookRequest
@@ -20,53 +21,53 @@ namespace Sitecore.XMC.WebhookRequest
         [JsonProperty("EventName")]
         public string EventName { get; set; }
 
-        public async Task<Microsoft.Teams.AdaptiveCardContent> GetMicrosoftTeamsAdaptiveCardContent(string tenantName, string tenantUrl, string apiKey, ILogger log)
+        public async Task<Microsoft.Teams.AdaptiveCardData> GetMicrosoftTeamsadaptiveCardData(string tenantName, string tenantUrl, string apiKey, ILogger log)
         {
-            var adaptiveCardContent = new Microsoft.Teams.AdaptiveCardContent();
+            var adaptiveCardData = new Microsoft.Teams.AdaptiveCardData();
 
             switch (EventName)
             {
                 case "item:added":
-                    adaptiveCardContent.Title = "A new item from a template is added.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "A new item from a template is added.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:versionAdded":
-                    adaptiveCardContent.Title = "A new version is added to the item.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "A new version is added to the item.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:cloneAdded":
-                    adaptiveCardContent.Title = "A new cloned item is added";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "A new cloned item is added";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:deleted":
-                    adaptiveCardContent.Title = "the item is deleted";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "the item is deleted";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:deleting":
-                    adaptiveCardContent.Title = "Raised before deleting the item.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "Raised before deleting the item.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:versionRemoved":
-                    adaptiveCardContent.Title = "Raised when a version of the item is removed.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "Raised when a version of the item is removed.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:locked":
                     //Get the owner and date.
                     var lockField = Item.VersionedFields.Single(e => e.Id == Guid.Parse(lockFieldId));
                     var doc = new XmlDocument();
                     doc.LoadXml(lockField.Value);
-                    var lockOwner = doc.DocumentElement.Attributes["owner"].Value.Replace("\\", "\\\\");
+                    var lockOwner = doc.DocumentElement.Attributes["owner"].Value.Replace("\\", "");
 
-                    //adaptiveCardContent.Title = "The item **" + Item.Name + "** is locked.";
-                    adaptiveCardContent.Description = "The **" + Item.Name + "** item is locked by **" + lockOwner + "** on the [jbexmclouddemo](" + tenantUrl + ") tenant.";
+                    //adaptiveCardData.Title = "The item **" + Item.Name + "** is locked.";
+                    adaptiveCardData.Description = "The **" + Item.Name + "** item is locked by **" + lockOwner + "** on the [jbexmclouddemo](" + tenantUrl + ") tenant.";
                     break;
                 case "item:unlocked":
-                    //adaptiveCardContent.Title = "The item **" + Item.Name + "** is unlocked.";
-                    adaptiveCardContent.Description = "The **" + Item.Name + "** item is unlocked on the [jbexmclouddemo](" + tenantUrl + ") tenant.";
+                    //adaptiveCardData.Title = "The item **" + Item.Name + "** is unlocked.";
+                    adaptiveCardData.Description = "The **" + Item.Name + "** item is unlocked on the [jbexmclouddemo](" + tenantUrl + ") tenant.";
                     break;
                 case "item:saved":
-                    //adaptiveCardContent.Title = "The item **" + Item.Name + "** is saved.";
-                    adaptiveCardContent.Description = "Changes to the  **" + Item.Name + "** item are saved on the [jbexmclouddemo](" + tenantUrl + ") tenant. \r The following field values have changed:";
+                    //adaptiveCardData.Title = "The item **" + Item.Name + "** is saved.";
+                    adaptiveCardData.Description = "Changes to the  **" + Item.Name + "** item are saved on the [jbexmclouddemo](" + tenantUrl + ") tenant. \r The following field values have changed:";
                     foreach (var fieldChange in Changes.FieldChanges)
                     {
                         var fieldName = await XMC.Item.GetFieldNameAsync(
@@ -75,49 +76,49 @@ namespace Sitecore.XMC.WebhookRequest
                             fieldChange.FieldId,
                             Item.Id,
                             log);
-                        adaptiveCardContent.Fields.Add("The value of the field **" + fieldName + "** has changed from **" + fieldChange.OriginalValue.Replace("\\", "\\\\") + "** to **" + fieldChange.Value.Replace("\\", "\\\\") + "**");
+                        adaptiveCardData.Fields.Add(new Field("The value of the field **" + fieldName + "** has changed from **" + fieldChange.OriginalValue.Replace("\\", "") + "** to **" + fieldChange.Value.Replace("\\", "") + "**"));
                     }
                     break;
                 case "item:copied":
-                    adaptiveCardContent.Title = "The item " + Item.Name + " is copied";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "The item " + Item.Name + " is copied";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:moved":
-                    adaptiveCardContent.Title = "The item " + Item.Name + " is moved to another parent.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "The item " + Item.Name + " is moved to another parent.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:renamed":
-                    adaptiveCardContent.Title = "The item " + Item.Name + " is renamed.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "The item " + Item.Name + " is renamed.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:sortorderchanged":
-                    adaptiveCardContent.Title = "The sort order of the item " + Item.Name + " changed.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "The sort order of the item " + Item.Name + " changed.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "item:templateChanged":
-                    adaptiveCardContent.Title = "The template of the item " + Item.Name + " has changed.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "The template of the item " + Item.Name + " has changed.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "publish:begin":
-                    adaptiveCardContent.Title = "Raised when the publishing of the item starts.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "Raised when the publishing of the item starts.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "publish:end":
-                    adaptiveCardContent.Title = "Raised when the publishing of the item ends.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "Raised when the publishing of the item ends.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "publish:fail":
-                    adaptiveCardContent.Title = "Raised when the publishing of the item fails.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "Raised when the publishing of the item fails.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 case "publish:statusUpdated":
-                    adaptiveCardContent.Title = "Raised when the status of item publishing updates.";
-                    adaptiveCardContent.Description = adaptiveCardContent.Title;
+                    adaptiveCardData.Title = "Raised when the status of item publishing updates.";
+                    adaptiveCardData.Description = adaptiveCardData.Title;
                     break;
                 default: return null;
             }
 
-            return adaptiveCardContent;
+            return adaptiveCardData;
         }
 
         [JsonProperty("Item")]
