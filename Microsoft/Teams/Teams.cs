@@ -33,7 +33,7 @@ namespace Microsoft.Teams
 
             // Load the Adaptive Card template from a file.
             string templatePath = Directory.GetParent(Directory.GetParent(Directory.GetParent(context.FunctionAppDirectory).ToString()).ToString()) + "\\" + Path.Combine(paths);
-            string adaptiveCardTemplate = RemoveNewLines(File.ReadAllText(templatePath));
+            string adaptiveCardTemplate = File.ReadAllText(templatePath);
 
             // Parse the Adaptive Card template.
             var cardTemplate = new AdaptiveCardTemplate(adaptiveCardTemplate);
@@ -41,21 +41,22 @@ namespace Microsoft.Teams
             // Replace placeholders in the template with data from the context.
             var adaptiveCard = cardTemplate.Expand(adaptiveCardData.ToJson());
 
-            // Create an Activity with the Adaptive Card.
+            // Create a Message with the Adaptive Card.
             var message = new
             {
                 type = "message",
-                attachments = new Attachment
+                attachments = new
                 {
                     ContentType = AdaptiveCard.ContentType,
-                    Content = adaptiveCard,
+                    ContentUrl = "",
+                    Content = JsonConvert.DeserializeObject(adaptiveCard),
                 }
             };
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var content = new StringContent(JsonConvert.SerializeObject(message), System.Text.Encoding.Default, "application/json");
+            var content = new StringContent(JsonConvert.SerializeObject(message), System.Text.Encoding.UTF8, "application/json");
             var response = await client.PostAsync(webhookUrl, content);
             response.EnsureSuccessStatusCode();
 

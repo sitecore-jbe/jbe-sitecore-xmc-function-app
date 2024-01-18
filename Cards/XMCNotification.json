@@ -6,12 +6,6 @@
     "body": [
         {
             "type": "TextBlock",
-            "text": "${Title}",
-            "style": "heading",
-            "wrap": true
-        },
-        {
-            "type": "TextBlock",
             "text": "${Description}",
             "wrap": true
         },
